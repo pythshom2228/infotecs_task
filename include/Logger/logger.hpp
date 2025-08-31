@@ -10,7 +10,7 @@ class Logger {
 public:
     using SinkPtr = std::unique_ptr<Sink>;
 
-    explicit Logger(Level default_level = Level::Info);
+    explicit Logger(const std::string& logfile, Level default_level = Level::Info);
 
     void add_sink(SinkPtr sink);
 

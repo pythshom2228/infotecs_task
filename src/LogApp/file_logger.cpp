@@ -5,9 +5,8 @@
 using namespace logging;
 
 FileLogger::FileLogger(const std::string& logfile, Level default_level)
-    : logger_(default_level)
+    : logger_(logfile,default_level)
 {
-    logger_.add_sink(FileSink::create(logfile));
     worker_thread_ = std::thread(&FileLogger::worker_loop, this);
 }
 
@@ -28,7 +27,7 @@ void FileLogger::run_console() {
 
         std::cout << "Введите уровень (info|warn|error, Enter = info): ";
         if (!std::getline(std::cin, level_str)) break;
-
+        std::cout << '\n';
         Level lvl = Level::Info;
         if (!level_str.empty()) {
             lvl = parse_level(level_str);

@@ -1,11 +1,14 @@
 #include <Logger/logger.hpp>
+#include <Logger/file_sink.hpp>
 #include <sstream>
 #include <ctime>
 
 namespace logging {
 
-Logger::Logger(Level default_level)
-    : current_level_(default_level) {}
+Logger::Logger(const std::string& logfile, Level default_level)
+    : current_level_(default_level) {
+        sinks_.push_back(FileSink::create(logfile));
+    }
 
 void Logger::add_sink(SinkPtr sink) {
     if (!sink) return;

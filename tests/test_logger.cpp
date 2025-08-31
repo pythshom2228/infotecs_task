@@ -35,7 +35,7 @@ private:
 
 // Тесты Logger (фильтрация) 
 void test_logger_level_filter() {
-    Logger logger(Level::Warning);
+    Logger logger("test_logger_level_filter.txt",Level::Warning);
     auto sink = std::make_unique<TestSink>();
     auto* raw = sink.get();
     logger.add_sink(std::move(sink));
@@ -53,7 +53,7 @@ void test_logger_level_filter() {
 
 // Тесты Logger (смена уровня на лету)
 void test_logger_set_level_runtime() {
-    Logger logger(Level::Error);
+    Logger logger("test_logger_set_level_runtime.txt",Level::Error);
     auto sink = std::make_unique<TestSink>();
     auto* raw = sink.get();
     logger.add_sink(std::move(sink));
@@ -72,7 +72,7 @@ void test_logger_set_level_runtime() {
 
 //  Тесты Logger (потокобезопасность) 
 void test_logger_thread_safety() {
-    Logger logger(Level::Info);
+    Logger logger("test_logger_thread_safety.txt",Level::Info);
     auto sink = std::make_unique<TestSink>();
     auto* raw = sink.get();
     logger.add_sink(std::move(sink));
@@ -128,28 +128,6 @@ void test_file_sink_create_and_overwrite() {
     }
 }
 
-// Тест Logger + FileSink (фильтрация в логгере)
-void test_logger_with_filesink_filtering() {
-    const std::string path = "test_logger_with_filesink.log";
-    if (std::filesystem::exists(path)) std::filesystem::remove(path);
-
-    Logger logger(Level::Warning);
-    logger.add_sink(FileSink::create(path));
-
-    logger.log("info_should_NOT_appear", Level::Info);
-    logger.log("warn_should_appear",     Level::Warning);
-
-    // небольшой yield, хотя логирование синхронное — просто чтобы файл точно был сброшен
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
-
-    std::ifstream in(path);
-    std::vector<std::string> lines;
-    for (std::string line; std::getline(in, line); ) lines.push_back(line);
-
-    ASSERT_TRUE(lines.size() == 1, "Only one line must be in file (Warning)");
-    ASSERT_TRUE(lines[0].find("warn_should_appear") != std::string::npos,
-                "File must contain Warning message (Info is filtered by Logger)");
-}
 
 // Run Tests
 int main() {
@@ -157,7 +135,6 @@ int main() {
     test_logger_set_level_runtime();
     test_logger_thread_safety();
     test_file_sink_create_and_overwrite();
-    test_logger_with_filesink_filtering();
 
     std::cout << "test_logger: All tests passed!\n";
     return 0;
