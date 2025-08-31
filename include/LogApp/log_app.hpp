@@ -1,5 +1,5 @@
 #pragma once
-#include <Logger/logger.hpp>
+#include <Logger/file_logger.hpp>
 #include <LogApp/task_queue.hpp>
 #include <thread>
 
@@ -8,10 +8,10 @@ struct Task {
     logging::Level level;
 };
 
-class FileLogger {
+class LogApp {
 public:
-    FileLogger(const std::string& logfile, logging::Level default_level);
-    ~FileLogger();
+    LogApp(const std::string& logfile, logging::Level default_level);
+    ~LogApp();
 
     void run_console();
 
@@ -20,7 +20,7 @@ private:
     logging::Level parse_level(const std::string& token);
 
 private:
-    logging::Logger logger_;
+    logging::FileLogger logger_;
     TaskQueue<Task> queue_;
     std::thread worker_thread_;
 };

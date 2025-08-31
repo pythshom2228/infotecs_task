@@ -26,8 +26,11 @@ set(RECEIVER_SRC ${CMAKE_SOURCE_DIR}/src/Receiver)
 # Библиотека 
 add_library( logger 
     ${LOGGER_SRC}/logger.cpp
+    ${LOGGER_SRC}/file_logger.cpp
+    ${LOGGER_SRC}/socket_logger.cpp
     ${LOGGER_SRC}/file_sink.cpp
     ${LOGGER_SRC}/socket_sink.cpp
+    
 )
 target_include_directories(logger PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
@@ -35,7 +38,6 @@ target_include_directories(logger PUBLIC ${CMAKE_SOURCE_DIR}/include)
 # Приложение часть 2
 add_executable(log_app 
     ${LOGAPP_SRC}/log_app.cpp
-    ${LOGAPP_SRC}/file_logger.cpp
 )
 target_link_libraries(log_app PUBLIC logger)
 

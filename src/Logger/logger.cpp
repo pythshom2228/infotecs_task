@@ -5,10 +5,8 @@
 
 namespace logging {
 
-Logger::Logger(const std::string& logfile, Level default_level)
-    : current_level_(default_level) {
-        sinks_.push_back(FileSink::create(logfile));
-    }
+Logger::Logger(Level default_level)
+    : current_level_(default_level) {}
 
 void Logger::add_sink(SinkPtr sink) {
     if (!sink) return;

@@ -35,7 +35,7 @@ private:
 
 // Тесты Logger (фильтрация) 
 void test_logger_level_filter() {
-    Logger logger("test_logger_level_filter.txt",Level::Warning);
+    Logger logger(Level::Warning);
     auto sink = std::make_unique<TestSink>();
     auto* raw = sink.get();
     logger.add_sink(std::move(sink));
@@ -53,7 +53,7 @@ void test_logger_level_filter() {
 
 // Тесты Logger (смена уровня на лету)
 void test_logger_set_level_runtime() {
-    Logger logger("test_logger_set_level_runtime.txt",Level::Error);
+    Logger logger(Level::Error);
     auto sink = std::make_unique<TestSink>();
     auto* raw = sink.get();
     logger.add_sink(std::move(sink));
@@ -72,7 +72,7 @@ void test_logger_set_level_runtime() {
 
 //  Тесты Logger (потокобезопасность) 
 void test_logger_thread_safety() {
-    Logger logger("test_logger_thread_safety.txt",Level::Info);
+    Logger logger(Level::Info);
     auto sink = std::make_unique<TestSink>();
     auto* raw = sink.get();
     logger.add_sink(std::move(sink));
