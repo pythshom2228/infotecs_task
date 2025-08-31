@@ -4,6 +4,18 @@
   - G++<br>
   - CMake<br>
 
+Команды для сборки<br>
+```
+git clone https://github.com/pythshom2228/infotecs_task.git
+cd infotecs_task
+cmake -B build
+cmake --build build
+```
+Для компиляции статической/динамической библиотеки <br>
+```
+cmake -B build -DBUILD_SHARED_LIBS=ON/OFF
+```
+
 ## Цели сборки
 Часть 1: liblogger - Библиотека для записи в журнал <br>
 Часть 2: log_app - Приложение для проверки библиотеки <br>
